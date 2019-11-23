@@ -1,0 +1,10 @@
+[package]
+name = "adventofcode2018"
+version = "0.1.0"
+authors = ["kjempelodott <kjempelodott@gmail.com>"]
+
+[dependencies]
+itertools = "*"
+counter = "*"
+min-max-heap = "*"
+regex = "*"
