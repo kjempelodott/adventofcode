@@ -35,6 +35,13 @@ pub mod metric {
     }
 
     #[derive(Copy,Clone,Debug,Default,PartialEq,Eq,PartialOrd,Ord,Hash)]
+    pub struct Point3D {
+        pub z: isize,
+        pub y: isize,
+        pub x: isize,
+    }
+
+    #[derive(Copy,Clone,Debug,Default,PartialEq,Eq,PartialOrd,Ord,Hash)]
     pub struct Point4D {
         pub w: isize,
         pub z: isize,
@@ -83,6 +90,14 @@ pub mod metric {
         }
     }
 
+    impl Point3D {
+        pub fn new<T>(z: T, y: T, x: T) -> Self where isize: TryFrom<T> {
+            Point3D { z: TryFrom::try_from(z).unwrap_or(0),
+                      y: TryFrom::try_from(y).unwrap_or(0),
+                      x: TryFrom::try_from(x).unwrap_or(0) }
+        }
+    }
+
     pub trait Manhattan where Self: Sized + Clone + Copy {
         fn adjacent(&self) -> [Self; 4];
         fn distance(&self, other: &Self) -> usize;
@@ -103,6 +118,16 @@ pub mod metric {
     }
 
     use std::unimplemented;
+    impl Manhattan for Point3D {
+        fn adjacent(&self) -> [Self; 4] {
+            unimplemented!();
+        }
+        fn distance(&self, other: &Point3D) -> usize {
+            (self.x - other.x).abs() as usize + (self.y - other.y).abs() as usize +
+            (self.z - other.z).abs() as usize
+        }
+    }
+
     impl Manhattan for Point4D {
         fn adjacent(&self) -> [Self; 4] {
             unimplemented!();
