@@ -1,5 +1,3 @@
-#![feature(try_from)]
-
 use std::io::{self, Read};
 pub fn read_from_stdin() -> String {
     let mut buffer = String::new();
