@@ -9,13 +9,13 @@ use itertools::Itertools;
 fn main() {
     let bytecode = numbers!(read_from_stdin() => isize);   
     let prog = Program::new(bytecode);
-    println!("Part 1: {:?}", (0..5).permutations(5)
+    println!("Part 1: {}", (0..5).permutations(5)
              .map(|phases| phases.iter()
                   .fold(0, |out, &p| prog.run_once(vec![p, out])))
              .max()
              .unwrap());
 
-    println!("Part 2: {:?}", (5..10).permutations(5)
+    println!("Part 2: {}", (5..10).permutations(5)
              .map(|phases| {
                  let mut amps: Vec<Program> = (0..5).map(|_| prog.clone()).collect();
                  let mut signal = phases.iter()
