@@ -1,5 +1,6 @@
 use std::collections::VecDeque;
 
+#[derive(Clone)]
 pub struct Program(Vec<isize>);
 
 impl Program {
@@ -7,8 +8,12 @@ impl Program {
         Program(bytecode)
     }
 
-    pub fn run(&self, stdin: Vec<isize>) -> isize {
-        let mut heap = self.0.clone();
+    pub fn run_once(&self, stdin: Vec<isize>) -> isize {
+        self.clone().run(stdin)
+    }
+
+    pub fn run(&mut self, stdin: Vec<isize>) -> isize {
+        let ref mut heap = self.0;
         let mut i = 0;
         let mut stdin = VecDeque::from(stdin);
         let mut stdout = VecDeque::new();
