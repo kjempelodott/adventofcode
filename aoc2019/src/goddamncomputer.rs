@@ -1,23 +1,49 @@
 use std::collections::VecDeque;
 
 #[derive(Clone)]
-pub struct Program(Vec<isize>);
+pub struct Program {
+    heap: Vec<isize>,
+    ip: usize,
+    stdin: VecDeque<isize>,
+    stdout: VecDeque<isize>,
+    state: State
+}
 
+#[derive(Clone,Copy,PartialEq)]
+pub enum State {
+    Halted,
+    Blocking,
+    Running
+}
+
+use self::State::*;
 impl Program {
     pub fn new(bytecode: Vec<isize>) -> Self {
-        Program(bytecode)
+        Program {
+            heap: bytecode,
+            ip: 0,
+            stdin: VecDeque::new(),
+            stdout: VecDeque::new(),
+            state: Running
+        }
+    }
+
+
+    pub fn get_state(&self) -> State {
+        self.state
     }
 
     pub fn run_once(&self, stdin: Vec<isize>) -> isize {
         self.clone().run(stdin)
     }
 
-    pub fn run(&mut self, stdin: Vec<isize>) -> isize {
-        let ref mut heap = self.0;
-        let mut i = 0;
-        let mut stdin = VecDeque::from(stdin);
-        let mut stdout = VecDeque::new();
+    pub fn run(&mut self, _stdin: Vec<isize>) -> isize {
+        let ref mut heap = self.heap;
+        let ref mut stdin = self.stdin;
+        let ref mut stdout = self.stdout;
+        stdin.append(&mut _stdin.into_iter().collect());
 
+        let mut i = self.ip;
         loop {
             let mut z = heap[i];
             let op = z % 100;
@@ -44,8 +70,15 @@ impl Program {
                 },
                 3 => {
                     let v1 = heap[i+1];
-                    heap[v1 as usize] = stdin.pop_front().unwrap();
-                    i += 2;
+                    if let Some(val) = stdin.pop_front() {
+                        heap[v1 as usize] = val;
+                        i += 2;
+                    }
+                    else {
+                        self.ip = i;
+                        self.state = Blocking;
+                        return *stdout.back().unwrap()
+                    }
                 },
                 4 => {
                     let v1 = if im0 { heap[i+1] } else { heap[heap[i+1] as usize] };
@@ -85,6 +118,8 @@ impl Program {
                 _ => break
             }
         }
+        self.ip = 0;
+        self.state = Halted;
         *stdout.back().unwrap()
     }
 }

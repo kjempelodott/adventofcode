@@ -6,6 +6,6 @@ fn main() {
     let bytecode = numbers!(read_from_stdin() => isize);
 
     let prog = goddamncomputer::Program::new(bytecode);
-    println!("Part 1: {}", prog.run(vec![1]));
-    println!("Part 1: {}", prog.run(vec![5]));
+    println!("Part 1: {}", prog.run_once(vec![1]));
+    println!("Part 1: {}", prog.run_once(vec![5]));
 }
