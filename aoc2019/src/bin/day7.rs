@@ -7,8 +7,8 @@ extern crate itertools;
 use itertools::Itertools;
 
 fn main() {
-    let bytecode = numbers!(read_from_stdin() => isize);   
-    let prog = Program::new(bytecode);
+    let intcode = numbers!(read_from_stdin() => isize);
+    let prog = Program::new(intcode);
     println!("Part 1: {}", (0..5).permutations(5)
              .map(|phases| phases.iter()
                   .fold(0, |out, &p| prog.run_once(vec![p, out])))

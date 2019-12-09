@@ -18,16 +18,15 @@ pub enum State {
 
 use self::State::*;
 impl Program {
-    pub fn new(bytecode: Vec<isize>) -> Self {
+    pub fn new(intcode: Vec<isize>) -> Self {
         Program {
-            heap: bytecode,
+            heap: intcode,
             ip: 0,
             stdin: VecDeque::new(),
             stdout: VecDeque::new(),
             state: Running
         }
     }
-
 
     pub fn get_state(&self) -> State {
         self.state
