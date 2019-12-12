@@ -11,7 +11,7 @@ fn main() {
     let prog = Program::new(intcode);
     println!("Part 1: {}", (0..5).permutations(5)
              .map(|phases| phases.iter()
-                  .fold(0, |out, &p| prog.run_once(vec![p, out])))
+                  .fold(0, |out, &p| prog.run_once(vec![p, out])[0]))
              .max()
              .unwrap());
 
@@ -20,9 +20,9 @@ fn main() {
                  let mut amps: Vec<Program> = (0..5).map(|_| prog.clone()).collect();
                  let mut signal = phases.iter()
                      .zip(amps.iter_mut())
-                     .fold(0, |out, (&p, amp)| amp.run(vec![p, out]));
+                     .fold(0, |out, (&p, amp)| amp.run(vec![p, out])[0]);
                  while amps[4].get_state() != State::Halted {
-                     signal = amps.iter_mut().fold(signal, |out, amp| amp.run(vec![out]));
+                     signal = amps.iter_mut().fold(signal, |out, amp| amp.run(vec![out])[0]);
                  }
                  signal
              })

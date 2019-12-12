@@ -106,11 +106,11 @@ impl Program {
         self.state
     }
 
-    pub fn run_once(&self, stdin: Vec<isize>) -> isize {
+    pub fn run_once(&self, stdin: Vec<isize>) -> Vec<isize> {
         self.clone().run(stdin)
     }
 
-    pub fn run(&mut self, _stdin: Vec<isize>) -> isize {
+    pub fn run(&mut self, _stdin: Vec<isize>) -> Vec<isize> {
         self.stdin.append(&mut _stdin.into_iter().collect());
         let mut i = self.ip;
         loop {
@@ -136,7 +136,7 @@ impl Program {
                     else {
                         self.ip = i;
                         self.state = Blocking;
-                        return *self.stdout.back().unwrap()
+                        return self.stdout.drain(..).collect()
                     }
                 },
                 4 => {
@@ -181,7 +181,7 @@ impl Program {
         }
         self.ip = 0;
         self.state = Halted;
-        *self.stdout.back().unwrap()
+        self.stdout.drain(..).collect()
     }
 }
 
