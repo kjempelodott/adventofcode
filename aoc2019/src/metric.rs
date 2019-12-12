@@ -15,6 +15,25 @@ pub enum Direction {
 }
 use self::Direction::*;
 
+impl Direction {
+    pub fn turn_left(&self) -> Self {
+        match self {
+            Up => Left,
+            Left => Down,
+            Down => Right,
+            Right => Up
+        }
+    }
+    pub fn turn_right(&self) -> Self {
+        match self {
+            Up => Right,
+            Right => Down,
+            Down => Left,
+            Left => Up
+        }
+    }
+}
+
 impl Point {
     pub fn new<T>(y: T, x: T) -> Self where isize: TryFrom<T> {
         Point { y: TryFrom::try_from(y).unwrap_or(0),
