@@ -6,3 +6,4 @@ authors = ["kjempelodott <kjempelodott@gmail.com>"]
 [dependencies]
 itertools = "*"
 counter = "*"
+parse-display = "*"
