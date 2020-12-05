@@ -29,7 +29,7 @@ enum Color {
     Green,
     #[display("hzl")]
     Hazel,
-    #[from_str(regex="#(?P<0>[a-z0-9]+)")]
+    #[from_str(regex="#(?P<0>[a-f0-9]+)")]
     Hex(String),
     #[display("oth")]
     Other,
