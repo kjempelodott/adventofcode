@@ -6,8 +6,8 @@ fn main() {
     // col: 3 last bits
     // rowid * 8 == row << 3
     let mut sids: Vec<u16> = read_from_stdin().lines()
-        .map(|spec| spec.chars()
-             .map(|c| match c { 'F'|'L' => 0, 'B'|'R' => 1, _ => unreachable!() })
+        .map(|spec| spec.bytes()
+             .map(|b| 1-((b & 4)>>2) as u16) // F|L & 4 = 4, B|R & 4 = 0
              .fold(0, |sid, b| (sid<<1) + b)) // rowid is automatically bitshifted by << 3
         .collect();
     sids.sort();
