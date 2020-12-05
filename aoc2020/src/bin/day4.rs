@@ -12,7 +12,7 @@ enum Height {
     #[display("{0}cm")]
     Cm(usize),
     #[display("{0}")]
-    Undefied(usize),
+    Undefined(usize),
 }
 
 #[derive(FromStr,PartialEq)]
