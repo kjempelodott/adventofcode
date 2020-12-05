@@ -16,23 +16,17 @@ enum Height {
 }
 
 #[derive(FromStr,PartialEq)]
+#[display(style="lowercase")]
 enum Color {
-    #[display("amb")]
-    Amber,
-    #[display("blu")]
-    Blue,
-    #[display("brn")]
-    Brown,
-    #[display("gry")]
-    Gray,
-    #[display("grn")]
-    Green,
-    #[display("hzl")]
-    Hazel,
+    Amb,
+    Blu,
+    Brn,
+    Gry,
+    Grn,
+    Hzl,
+    Oth,
     #[from_str(regex="#(?P<0>[a-f0-9]+)")]
     Hex(String),
-    #[display("oth")]
-    Other,
     #[from_str(regex="(?P<0>[a-z0-9]+)")]
     Undefined(String)
 }
