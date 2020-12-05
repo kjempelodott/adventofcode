@@ -14,7 +14,6 @@ fn main() {
     println!("Part 1: {}", sids.last().unwrap());
     println!("Part 2: {}", sids.windows(2)
              .filter(|w| w[1] == w[0]+2)
-             .map(|w| w[0])
-             .next().unwrap() + 1
+             .next().unwrap()[0] + 1
     );
 }
