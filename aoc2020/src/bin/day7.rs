@@ -1,7 +1,7 @@
 extern crate adventofcode2020;
 use adventofcode2020::read_from_stdin;
 
-use std::collections::{HashSet,HashMap,BinaryHeap};
+use std::collections::{HashSet,HashMap};
 
 fn main() {
     let mut dfs_map: HashMap<String,Vec<(String,usize)>> = HashMap::new();
@@ -20,16 +20,16 @@ fn main() {
     }
 
     let mut incl: HashSet<String> = bfs_map["shinygold"].iter().cloned().collect();
-    let mut bfs = BinaryHeap::from(bfs_map["shinygold"].clone());
+    let mut bfs = bfs_map["shinygold"].clone();
     while let Some(c) = bfs.pop() {
         if let Some(p) = bfs_map.get(&c) {
-            bfs.append(&mut BinaryHeap::from(p.clone()));
+            bfs.extend(p.clone());
             incl.extend(p.clone());
         }
     }
     println!("Part 1: {}", incl.len());
 
-    let mut dfs = BinaryHeap::from(dfs_map["shinygold"].clone());
+    let mut dfs = dfs_map["shinygold"].clone();
     let mut total: usize = dfs.iter().map(|(_,v)| v).sum();
     while let Some((p,m)) = dfs.pop() {
         if let Some(child) = dfs_map.get(&p) {
