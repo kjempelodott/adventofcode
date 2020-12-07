@@ -1,4 +1,3 @@
-#![feature(str_split_once)]
 extern crate adventofcode2020;
 use adventofcode2020::read_from_stdin;
 
