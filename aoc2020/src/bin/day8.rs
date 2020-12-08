@@ -33,12 +33,12 @@ use self::Operation::*;
 
 fn run(bootcode: &Vec<Operation>) -> Exit {
     let (mut acc, mut ip) = (0, 0);
-    let mut visited = vec![];
+    let mut visited = vec![false; bootcode.len()];
     while ip < bootcode.len() {
-        if visited.contains(&ip) {
+        if visited[ip] {
             return Exit::Error(acc);
         }
-        visited.push(ip);
+        visited[ip] = true;
         match bootcode[ip] {
             Acc(n) => { acc += n; ip +=1 ; },
             Jmp(n) => { ip = (ip as isize + n) as usize },
