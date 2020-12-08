@@ -4,13 +4,23 @@ use adventofcode2020::read_from_stdin;
 extern crate parse_display;
 use parse_display::FromStr;
 
-#[derive(FromStr,PartialEq,Clone)]
+#[derive(FromStr,PartialEq)]
 #[display("{} {0}")]
 #[display(style="lowercase")]
 enum Operation {
     Acc(isize),
     Jmp(isize),
     Nop(isize),
+}
+
+impl Operation {
+    fn flip(&mut self) -> bool {
+        match self {
+            Acc(_) => false,
+            Jmp(n) => { *self = Nop(*n); true },
+            Nop(n) => { *self = Jmp(*n); true },
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -41,17 +51,13 @@ fn run(bootcode: &Vec<Operation>) -> Exit {
 fn fuzz_and_fix(mut bootcode: Vec<Operation>) {
     let mut j = 0;
     loop {
-        let orig = bootcode[j].clone();
-        match orig {
-            Jmp(n) => { bootcode[j] = Nop(n); },
-            Nop(n) => { bootcode[j] = Jmp(n); },
-            _ => { j += 1; continue; }
+        if bootcode[j].flip() {
+            if let Exit::Ok(acc) = run(&bootcode) {
+                println!("Part 2: {}", acc);
+                break;
+            }
+            bootcode[j].flip();
         }
-        if let Exit::Ok(acc) = run(&bootcode) {
-            println!("Part 2: {}", acc);
-            break;
-        }
-        bootcode[j] = orig;
         j += 1;
     }
 }
