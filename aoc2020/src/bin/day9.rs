@@ -6,23 +6,21 @@ const N: usize = 25;
 
 fn main() {
     let m: Vec<u64> = numbers!(read_from_stdin() => u64);
-    let mut invalid = 0;
-    for (i,&n) in m[N..].iter().enumerate() {
-        let it = &m[i..i+N].iter();
-        if let None = it.clone().find(|&k| it.clone().find(|&s| n == s+k).is_some()) {
-            invalid = n;
-            break;
+    let mut i = 0;
+    while m[i..i+N].iter()
+        .find(|&k| m[i..i+N].iter().find(|&s| m[i] == s+k).is_some())
+        .is_some() {
+            i += 1;
         }
-    }
-    println!("Part 1: {}", invalid);
+    println!("Part 1: {}", m[i]);
     for i in 0..m.len() {
         let mut j = i+1;
         let mut sum = m[i];
-        while sum < invalid {
+        while sum < m[i] {
             sum += m[j];
             j += 1;
         }
-        if sum == invalid {
+        if sum == m[i] {
             let (min, max) = (&m[i..j].iter().min(), &m[i..j].iter().max());
             println!("Part 2: {}", min.unwrap() + max.unwrap());
             break;
