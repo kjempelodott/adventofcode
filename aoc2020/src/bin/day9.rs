@@ -14,17 +14,20 @@ fn main() {
     let invalid = m[i+N];
     println!("Part 1: {}", invalid);
 
-    let (a, b) = (0..i+N-1).rev().find_map(|b| {
-        let (mut a, mut sum) = (b-1, m[b]);
+    let (mut a, mut b) = (i+N-2, i+N-1);
+    let mut sum = m[b];
+    loop {
         while sum < invalid {
             sum += m[a];
             a -= 1;
         }
         if sum == invalid {
-            return Some((a+1, b))
+            a += 1;
+            let (min, max) = (&m[a..b].iter().min(), &m[a..b].iter().max());
+            println!("Part 2: {}", min.unwrap() + max.unwrap());
+            break
         }
-        None
-    }).unwrap();
-    let (min, max) = (&m[a..b].iter().min(), &m[a..b].iter().max());
-    println!("Part 2: {}", min.unwrap() + max.unwrap());
+        sum -= m[b];
+        b -= 1;
+    }
 }
