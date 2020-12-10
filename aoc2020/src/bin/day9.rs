@@ -6,12 +6,11 @@ const N: usize = 25;
 
 fn main() {
     let m: Vec<u64> = numbers!(read_from_stdin() => u64);
-    let mut i = 0;
-    while m[i..i+N].iter()
-        .find(|&k| m[i..i+N].iter().find(|&s| m[i+N] == s+k).is_some())
-        .is_some() {
-            i += 1;
-        }
+    let i = (0..).find(|&i| {
+        (i..i+N).find(|&j| {
+            (j+1..i+N).find(|&k| m[i+N] == m[j] + m[k]).is_some()
+        }).is_none()
+    }).unwrap();
     let invalid = m[i+N];
     println!("Part 1: {}", invalid);
 
