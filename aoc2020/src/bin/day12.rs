@@ -4,9 +4,7 @@ use adventofcode2020::read_from_stdin;
 extern crate parse_display;
 use parse_display::{Display,FromStr};
 
-#[derive(Default,Debug)]
 struct Vector(isize, isize);
-
 impl Vector {
     fn rotate(&mut self, deg: isize) {
         match deg {
