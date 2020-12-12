@@ -4,8 +4,6 @@ use adventofcode2020::read_from_stdin;
 extern crate parse_display;
 use parse_display::{Display,FromStr};
 
-use std::convert::TryFrom;
-
 #[derive(Default,Debug)]
 struct Vector(isize, isize);
 
