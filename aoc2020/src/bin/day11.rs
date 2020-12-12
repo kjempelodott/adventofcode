@@ -3,7 +3,7 @@ use adventofcode2020::read_from_stdin;
 use adventofcode2020::metric::{Point,Euclidean,Direction};
 use Direction::*;
 
-use std::collections::BTreeMap;
+use std::collections::HashMap;
 
 #[derive(Clone,Copy,Debug,PartialEq)]
 enum Seat {
@@ -13,9 +13,9 @@ enum Seat {
 
 use Seat::*;
 
-fn part1(mut seats: BTreeMap<Point,Seat>) -> usize {
+fn part1(mut seats: HashMap<Point,Seat>) -> usize {
     loop {
-        let mut moved = BTreeMap::new();
+        let mut moved = HashMap::new();
         for (&p, &s) in seats.iter() {  
             let c = p.adjacent().iter().filter(|&a| seats.get(a) == Some(&Occupied)).count();
             if s == Empty && c == 0 {
@@ -35,7 +35,7 @@ fn part1(mut seats: BTreeMap<Point,Seat>) -> usize {
     seats.values().filter(|&&s| s == Occupied).count()
 }
 
-fn part2(mut seats: BTreeMap<Point,Seat>) -> usize {
+fn part2(mut seats: HashMap<Point,Seat>) -> usize {
     let ymax = seats.keys().map(|t| t.y).max().unwrap();
     let xmax = seats.keys().map(|t| t.x).max().unwrap();
     let directions = [Up,
@@ -48,7 +48,7 @@ fn part2(mut seats: BTreeMap<Point,Seat>) -> usize {
                       Down|Left];
 
     loop {
-        let mut moved = BTreeMap::new();
+        let mut moved = HashMap::new();
         for (&p, &s) in seats.iter() {
             let mut c = 0;
             for &d in &directions {
@@ -89,7 +89,7 @@ fn main() {
              .map(move |(x,_)| (Point::new(y,x), Empty))
         )
         .flatten()
-        .collect::<BTreeMap<Point,Seat>>();
+        .collect::<HashMap<Point,Seat>>();
     
     println!("Part 1: {}", part1(seats.clone()));
     println!("Part 2: {}", part2(seats.clone()));
