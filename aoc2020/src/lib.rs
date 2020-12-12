@@ -1,3 +1,5 @@
+#![feature(min_const_generics)]
+
 use std::io::{self, Read};
 pub fn read_from_stdin() -> String {
     let mut buffer = String::new();
@@ -23,3 +25,5 @@ macro_rules! numbers {
             .collect::<Vec<$type>>()
     };
 }
+
+pub mod metric;
