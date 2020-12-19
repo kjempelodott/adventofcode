@@ -32,18 +32,15 @@ fn main() {
         .map(|l| l.parse::<Field>().unwrap())
         .collect();
     let mut tickets = vec![];
-    let mut error_rate = 0;
-    for l in input[23..].iter() {
-        let t = numbers!(l => usize);
-        let s: usize = t.iter()
-            .filter(|&v| fields.iter().find(|&f| f.in_range(*v)).is_none())
-            .sum();
-        if s > 0 {
-            error_rate += s;
-            continue;
-        }
-        tickets.push(t);
-    }
+    let error_rate = input[23..].iter()
+        .fold(0, |sum,l| {
+            let t = numbers!(l => usize);
+            let s: usize = t.iter()
+                .filter(|&v| fields.iter().find(|&f| f.in_range(*v)).is_none())
+                .sum();
+            if s == 0 { tickets.push(t) }
+            sum + s
+        });
     println!("Part 1: {}", error_rate);
 
     for c in 0..fields.len() {
