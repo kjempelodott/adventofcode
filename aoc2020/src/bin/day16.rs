@@ -29,7 +29,6 @@ impl Field {
 fn main() {
     let input = into_lines(read_from_stdin());
     let mut fields: Vec<Field> = input[..20].iter()
-        .take_while(|&l| l.len() > 1)
         .map(|l| l.parse::<Field>().unwrap())
         .collect();
     let mut tickets = vec![];
