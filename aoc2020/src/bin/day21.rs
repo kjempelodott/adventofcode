@@ -56,7 +56,6 @@ fn main() {
             }
         }
     }
-    //let mut bad_ingrs = ;
     println!("Part 2: {}", allergens.values()
              .map(|v| v.iter().next().unwrap().to_string())
              .collect::<Vec<_>>()
