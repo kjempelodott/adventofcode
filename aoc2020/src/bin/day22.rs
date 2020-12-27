@@ -77,8 +77,8 @@ fn recursive_combat(p1: &mut VecDeque<usize>, p2: &mut VecDeque<usize>) -> Winne
 
 fn play(mut p1: VecDeque<usize>, mut p2: VecDeque<usize>, f: Game) -> usize {
     match f(&mut p1, &mut p2) {
-        Winner::Player1 => p1.iter().zip((1..p1.len()+1).rev()).map(|(x,y)| x*y).sum::<usize>(),
-        Winner::Player2 => p2.iter().zip((1..p2.len()+1).rev()).map(|(x,y)| x*y).sum::<usize>()
+        Winner::Player1 => p1.iter().rev().enumerate().map(|(x,y)| (x+1)*y).sum::<usize>(),
+        Winner::Player2 => p2.iter().rev().enumerate().map(|(x,y)| (x+1)*y).sum::<usize>(),
     }
 }
 
