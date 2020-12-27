@@ -1,5 +1,3 @@
-#![feature(min_const_generics)]
-
 use std::io::{self, Read};
 pub fn read_from_stdin() -> String {
     let mut buffer = String::new();
@@ -22,7 +20,7 @@ macro_rules! numbers {
         $string
             .split(|c: char| !(c.is_digit(10) || c == '-'))
             .filter_map(|l| l.parse::<$type>().ok())
-            .collect::<Vec<$type>>()
+            .collect()
     };
 }
 
