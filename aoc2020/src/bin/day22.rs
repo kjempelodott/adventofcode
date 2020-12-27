@@ -51,8 +51,8 @@ fn recursive_combat(p1: &mut VecDeque<usize>, p2: &mut VecDeque<usize>) -> Winne
 
         let mut result = Winner::Player1;
         if p1.len() >= c1 && p2.len() >= c2 {
-            let mut s1 = p1.make_contiguous()[0..c1].iter().cloned().collect();
-            let mut s2 = p2.make_contiguous()[0..c2].iter().cloned().collect();
+            let mut s1 = p1.iter().take(c1).cloned().collect();
+            let mut s2 = p2.iter().take(c2).cloned().collect();
             result = recursive_combat(&mut s1, &mut s2);
         }
         else if c2 > c1 {
