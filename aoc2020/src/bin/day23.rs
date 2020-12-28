@@ -3,6 +3,7 @@ use adventofcode2020::read_from_stdin;
 use std::iter::successors;
 
 fn play(cups: &[usize], moves: usize) -> Vec<usize> {
+    // Cups have unique labels
     // Use a linked list to keep track of order
     // C = [a, b, c, ...]
     // LL[C[a]] = C[b]
