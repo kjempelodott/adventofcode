@@ -7,3 +7,4 @@ authors = ["kjempelodott <kjempelodott@gmail.com>"]
 counter = "*"
 itertools = "*"
 parse-display = "*"
+regex = "*"
