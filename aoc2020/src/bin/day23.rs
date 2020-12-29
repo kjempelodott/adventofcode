@@ -17,7 +17,7 @@ fn play(cups: &[usize], moves: usize) -> Vec<usize> {
 
     let mut c = cups[0];
     for _ in 0..moves {
-        let mut three = successors(Some(ll[c]), |x| Some(ll[*x])).take(3).collect::<Vec<usize>>();
+        let three = successors(Some(ll[c]), |x| Some(ll[*x])).take(3).collect::<Vec<usize>>();
         // Link current cup to the cup after the third removed cup
         ll[c] = ll[three[2]];
         // Find destination
@@ -26,8 +26,8 @@ fn play(cups: &[usize], moves: usize) -> Vec<usize> {
             d = if d > min { d - 1} else { max };
         }
         // Insert the three cups at destination
-        three.push(ll[d]);
-        [d].iter().chain(&three).zip(&three).for_each(|(i,x)| ll[*i] = *x);
+        ll[three[2]] = ll[d];
+        ll[d] = three[0];
         // Go to next cup
         c = ll[c];
     }
