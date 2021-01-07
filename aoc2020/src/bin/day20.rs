@@ -1,4 +1,3 @@
-#![feature(drain_filter)]
 extern crate adventofcode2020;
 use adventofcode2020::{into_lines,read_from_stdin};
 
@@ -89,20 +88,48 @@ impl Orientation {
         ];
         ORIENTATIONS.iter()
     }
-    fn apply(&self, x: &[Edge;4]) -> [Edge;4] {
+    fn apply_to_image(&self, data: &Vec<Vec<bool>>) -> Vec<Vec<bool>> {
+        let h = data.len();
+        let w = data[0].len();
+
+        let mut data = data.clone();
+        match self {
+            Rot90(f) => {
+                if *f { data.iter_mut().for_each(|row| row.reverse()) }
+                data = (0..w).rev()
+                    .map(|x| (0..h).map(|y| data[y][x]).collect::<Vec<bool>>())
+                    .collect();
+            },
+            Rot180(f) => {
+                if *f { data.iter_mut().for_each(|row| row.reverse()) }
+                data = (0..h).rev()
+                    .map(|y| (0..w).rev().map(|x| data[y][x]).collect::<Vec<bool>>())
+                    .collect();
+            },
+            Rot270(f) => {
+                if *f { data.iter_mut().for_each(|row| row.reverse()) }
+                data = (0..w)
+                    .map(|x| (0..h).rev().map(|y| data[y][x]).collect::<Vec<bool>>())
+                    .collect();
+            },
+            Identity(f) => if *f { data.iter_mut().for_each(|row| row.reverse()) }
+        }
+        data
+    }
+
+    fn apply_to_edge(&self, x: &[Edge;4]) -> [Edge;4] {
         let flip = |e: &mut [Edge;4]| {
             e.swap(0,2);
             e[1].rev();
             e[3].rev();
         };
+        let mut e = x.clone();
         match self {
             Identity(f) => {
-                let mut e = x.clone();
                 if *f { flip(&mut e) }
                 e
             },
             Rot90(f) => {
-                let mut e = x.clone();
                 if *f { flip(&mut e) }
                 e.rotate_left(1);
                 e[0].rev();
@@ -110,14 +137,12 @@ impl Orientation {
                 e
             },
             Rot180(f) => {
-                let mut e = x.clone();
                 if *f { flip(&mut e) }
                 e.rotate_left(2);
                 e.iter_mut().for_each(|y| y.rev());
                 e
             },
             Rot270(f) => {
-                let mut e = x.clone();
                 if *f { flip(&mut e) }
                 e.rotate_right(1);
                 e[1].rev();
@@ -161,33 +186,6 @@ impl Tile {
         };
         (id, tile)
     }
-
-    fn align(orientation: &Orientation, data: &mut Vec<Vec<bool>>) {
-        let h = data.len();
-        let w = data[0].len();
-        match orientation {
-            Rot90(f) => {
-                if *f { data.iter_mut().for_each(|row| row.reverse()) }
-                *data = (0..w).rev()
-                    .map(|x| (0..h).map(|y| data[y][x]).collect::<Vec<bool>>())
-                    .collect();
-            },
-            Rot180(f) => {
-                if *f { data.iter_mut().for_each(|row| row.reverse()) }
-                *data = (0..h).rev()
-                    .map(|y| (0..w).rev().map(|x| data[y][x]).collect::<Vec<bool>>())
-                    .collect();
-            },
-            Rot270(f) => {
-                if *f { data.iter_mut().for_each(|row| row.reverse()) }
-                *data = (0..w)
-                    .map(|x| (0..h).rev().map(|y| data[y][x]).collect::<Vec<bool>>())
-                    .collect();
-            },
-            Identity(f) => if *f { data.iter_mut().for_each(|row| row.reverse()) }
-        }
-    }
-
     #[allow(non_snake_case)]
     fn is_adjacent(&self, other: &Self) -> bool {
         for Edge(a,A) in &self.edge {
@@ -238,7 +236,7 @@ fn main() {
             .partition(|x| placed.contains_key(x));
 
         for op in Orientation::iter() {
-            let edge = op.apply(&tile.edge);
+            let edge = op.apply_to_edge(&tile.edge);
             let mut m = vec![];
             for f in fixed.iter() {
                 let ft = tiles.get(f).unwrap();
@@ -258,8 +256,9 @@ fn main() {
             if m.len() == fixed.len() {
                 let z = m.iter().fold((0,0), |p,z| (p.0 + z.0, p.1 + z.1));
                 let p = (z.0 / m.len() as i8, z.1 / m.len() as i8);
-                Tile::align(op, &mut tile.data);
+                let data = op.apply_to_image(&tile.data);
                 tile.edge = edge;
+                tile.data = data;
                 tiles.insert(t, tile);
                 placed.insert(t, (p.0, p.1));
                 break
@@ -291,8 +290,7 @@ fn main() {
         .collect::<Vec<_>>();
 
     for op in Orientation::iter() {
-        let mut mon = monster.clone();
-        Tile::align(op, &mut mon);
+        let mon = op.apply_to_image(&monster);
         let mon_h = mon.len();
         let mon_w = mon[0].len();
         let monsters = (0..(imh - mon_h))
