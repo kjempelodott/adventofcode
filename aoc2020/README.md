@@ -37,4 +37,10 @@ Convert each input string to a 10-bit number. The 7 leading bits (seat row) span
 ###### Problem
 Union and intersection of chars
 ###### Solution
-Trivial when using a hashset. The [Iterator::fold_first ](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold_first) uses the first element in the iterator as the initial value, which is neat when e.g. intersecting an array of hashsets
+Trivial when using a hashset. The [Iterator::fold_first ](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold_first) function uses the first element in the iterator as the initial value, which is neat when e.g. intersecting an array of hashsets.
+
+#### Day 7 – The Shiny Gold :sparkling_heart: :yellow_heart:
+###### Problem
+Directed acyclic graph (DAG)
+###### Solution
+This is a graph that can be topologically ordered, there are noe loops. Part 1 asks for all possible routes leading to a particular node (The Shiny Gold). This is solved with BFS sort. Part 2 asks for all nodes reachable from a particular starting node (The Shiny Gold). This is solved with DFS sort.
