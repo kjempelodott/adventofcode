@@ -78,7 +78,7 @@ fn main() {
             );
         }
         else {
-            let n = numbers!(rule => usize);
+            let n: Vec<usize> = numbers!(rule => usize);
             rules[idx] = match n.len() {
                 0 => Single(rule.as_bytes()[2]),
                 1..=3 => Substr(n),

@@ -31,7 +31,7 @@ fn chinese_remainder(residues: &[i64], modulii: &[i64], lcm: i64) -> Option<i64>
 
 fn main() {
     let input = read_from_stdin();
-    let ids = numbers![input => isize];
+    let ids: Vec<isize> = numbers![input => isize];
     let ts = ids[0];
     let fbus = ids[1..].iter().min_by_key(|&&x| x - ts % x).unwrap();
     println!("Part 1: {}", fbus * (fbus - ts % fbus));

@@ -34,7 +34,7 @@ fn main() {
     let mut tickets = vec![];
     let error_rate = input[23..].iter()
         .fold(0, |sum,l| {
-            let t = numbers!(l => usize);
+            let t: Vec<usize> = numbers!(l => usize);
             let s: usize = t.iter()
                 .filter(|&v| fields.iter().find(|&f| f.in_range(*v)).is_none())
                 .sum();
@@ -59,7 +59,7 @@ fn main() {
         *i = (*i^r).trailing_zeros() as usize;
     }
 
-    let myticket = numbers!(input[21] => usize);
+    let myticket: Vec<usize> = numbers!(input[21] => usize);
     println!("Part 2: {}", fields.iter()
              .enumerate()
              .filter(|(_,f)| f.name.starts_with("departure"))

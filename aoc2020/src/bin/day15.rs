@@ -5,7 +5,8 @@ use adventofcode2020::read_from_stdin;
 use std::collections::HashMap;
 
 fn main() {
-    let mut m: HashMap<usize,usize> = numbers!(read_from_stdin() => usize).into_iter()
+    let input: Vec<usize> = numbers!(read_from_stdin() => usize);
+    let mut m: HashMap<usize,usize> = input.into_iter()
         .enumerate()
         .map(|(i,x)| (x,i))
         .collect();

@@ -9,8 +9,8 @@ extern crate counter;
 use counter::Counter;
 
 fn main() {
-    let mut a = vec![0];
-    a.extend(numbers!(read_from_stdin() => u64));
+    let mut a: Vec<u64> = numbers!(read_from_stdin() => u64);
+    a.push(0);
     a.sort();
     a.push(a[a.len()-1] + 3);
     let d = &a[1..].iter().zip(&a[..a.len()]).map(|(b,c)| b - c).collect::<Vec<_>>();
