@@ -26,3 +26,15 @@ Store the indices of occupied (trees) points in a double vector
 Validate input based on a set of rules. Input is a mix of numbers and strings          
 ###### Solution                                                                                                                                                                                                      
 Trivial. The [parse_display](https://docs.rs/parse-display/) crate came in handy for parsing input. 
+
+#### Day 5                                                                                                                                                                                                           
+###### Problem
+Binary partitioning with 7 and 3 bits
+###### Solution
+Convert each input string to a 10-bit number. The 7 leading bits (seat row) span a space of 128 values, the 3 last (seat column) span a space of 8 values. The seat ID is given by multiplying row number with 8 and adding the column number. When converting the input to a 10-bit number, the row number bits are automatically left-shifted by 3, the same as mulitplying with 8.
+
+#### Day 6
+###### Problem
+Union and intersection of chars
+###### Solution
+Trivial when using a hashset. The [Iterator::fold_first ](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold_first) uses the first element in the iterator as the initial value, which is neat when e.g. intersecting an array of hashsets
