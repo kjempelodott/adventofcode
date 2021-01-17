@@ -79,8 +79,7 @@ fn main() {
             L(n) => {
                 direction.rotate(n);
                 wp.rotate(n);
-            },
-            _ => unreachable!()
+            }
         }
     }
     println!("Part 1: {}", ship1.0.abs() + ship1.1.abs());
