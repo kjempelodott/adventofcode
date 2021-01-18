@@ -44,3 +44,26 @@ Trivial when using a hashset. The [Iterator::fold_first ](https://doc.rust-lang.
 Directed acyclic graph (DAG)
 ###### Solution
 This is a graph that can be topologically ordered, there are noe loops. Part 1 asks for all possible routes leading to a particular node (The Shiny Gold). This is solved with BFS sort. Part 2 asks for all nodes reachable from a particular starting node (The Shiny Gold). This is solved with DFS sort.
+
+#### Day 8
+###### Problem
+Virtual Machine sort of problem. Part 2 is about fuzzing the input program.
+###### Solution
+Straightforward. The [parse_display](https://docs.rs/parse-display/) made conversion from input to "assembly" really smooth.
+
+#### Day 9
+###### Problem
+Find _x_ and _y_ which sum equals _Z_ in a list of numbers. In part 2, find a contiguous set of numbers which sum is _Z_. Input is sorted
+###### Solution
+Part 1 is solved with nested iterators, similar to day 1. Part 2 is solved by scanning with a window of dynamic length that grows or moves to the left (lower numbers) until its sum matches _Z_.
+
+#### Day10
+###### Problem
+Part 1 asks for the difference between all adjacent elements of an array. Part 2 asks for all possible sub-arrangements of the input numbers – combinatorics
+###### Solution
+Part 1 is trivial, and we learn that all differences are either 1 or 3. In all sub-arrangements, the numbers have to be sorted, and the first and last number must be present. The difference between any two adjacent numbers cannot be more than 3. This means that whenever there are _n_ = 3 or more contiguous numbers whose difference is 1, there are more than one way to make a sub-list that fulfills the requirements. Consider the two examples below, for _n_ = 3 and _n_ = 4.
+```
+[0 3 4 5 8] -> [0 3 4 5 8], [0 3 5 8]
+[0 3 4 5 6 9] -> [0 3 4 5 6 9], [0 3 4 6 9], [0 3 5 6 9], [0 3 6 9]
+```
+In general, the number of sub-lists become <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{n-2}i">
