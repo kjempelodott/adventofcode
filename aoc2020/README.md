@@ -59,11 +59,11 @@ Part 1 is solved with nested iterators, similar to day 1. Part 2 is solved by sc
 
 #### Day10
 ###### Problem
-Part 1 asks for the difference between all adjacent elements of an array. Part 2 asks for all possible sub-arrangements of the input numbers – combinatorics
+Part 1 asks for the spacing between a list of sorted numbers. Part 2 asks for all possible arrangements of the input numbers – combinatorics
 ###### Solution
-Part 1 is trivial, and we learn that all differences are either 1 or 3. In all sub-arrangements, the numbers have to be sorted, and the first and last number must be present. The difference between any two adjacent numbers cannot be more than 3. This means that whenever there are _n_ = 3 or more contiguous numbers whose difference is 1, there are more than one way to make a sub-list that fulfills the requirements. Consider the two examples below, for _n_ = 3 and _n_ = 4.
+Part 1 is trivial, and we learn that the observed spacings are 1 and 3. In all arrangements, the numbers have to be sorted, and the first and last number must be present. Other numbers may be removed, but the spacing between any two adjacent numbers cannot be more than 3. This means that for all subsets where there are _n_ >= 3 contiguous numbers whose difference is 1, there are more than one way to arrange that subset in a way that fulfills the requirements. Consider the two examples below, for _n_ = 3 and _n_ = 4.
 ```
 [0 3 4 5 8] -> [0 3 4 5 8], [0 3 5 8]
 [0 3 4 5 6 9] -> [0 3 4 5 6 9], [0 3 4 6 9], [0 3 5 6 9], [0 3 6 9]
 ```
-In general, the number of sub-lists become <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{n-2}i">
+In general, the number of sub-lists is <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{n-2}i">
