@@ -21,7 +21,7 @@ Traverse a binary 2D-grid that wraps around the _x_-axis. The same move is done 
 ###### Solution
 Store the indices of occupied (trees) points in a double vector
 
-#### Day 4
+#### Day 4his means 
 ###### Problem
 Validate input based on a set of rules. Input is a mix of numbers and strings
 ###### Solution
@@ -66,4 +66,4 @@ Part 1 is trivial, and we learn that the observed spacings are 1 and 3. In all a
 [0 3 4 5 8] -> [0 3 4 5 8], [0 3 5 8]
 [0 3 4 5 6 9] -> [0 3 4 5 6 9], [0 3 4 6 9], [0 3 5 6 9], [0 3 6 9]
 ```
-In general, the number of sub-lists is <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{n-2}i">
+In general, the number of possible arrangements for a subset is <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{n-2}i">
