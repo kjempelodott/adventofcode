@@ -21,7 +21,7 @@ Traverse a binary 2D-grid that wraps around the _x_-axis. The same move is done 
 ###### Solution
 Store the indices of occupied (trees) points in a double vector
 
-#### Day 4his means 
+#### Day 4 
 ###### Problem
 Validate input based on a set of rules. Input is a mix of numbers and strings
 ###### Solution
@@ -57,7 +57,7 @@ Find _x_ and _y_ which sum equals _Z_ in a list of numbers. In part 2, find a co
 ###### Solution
 Part 1 is solved with nested iterators, similar to day 1. Part 2 is solved by scanning with a window of dynamic length that grows or moves to the left (lower numbers) until its sum matches _Z_.
 
-#### Day10
+#### Day 10
 ###### Problem
 Part 1 asks for the spacing between a list of sorted numbers. Part 2 asks for all possible arrangements of the input numbers – combinatorics
 ###### Solution
@@ -67,3 +67,21 @@ Part 1 is trivial, and we learn that the observed spacings are 1 and 3. In all a
 [0 3 4 5 6 9] -> [0 3 4 5 6 9], [0 3 4 6 9], [0 3 5 6 9], [0 3 6 9]
 ```
 In general, the number of possible arrangements for a subset is <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1}^{n-2}i">
+
+#### Day 11
+###### Problem
+Game of Life type of problem
+###### Solution
+Straightforward
+
+#### Day 12
+###### Problem
+Vector movement
+###### Solution
+Straightforward. Part 1 and 2 only differ in type of direction vector. In part 1 the direction is simply a unit vector, while in part 2 it also has a length.
+
+#### Day 13
+###### Problem
+Congruence system
+###### Solution
+After much googling I finally stumbled upon something called _congruence systems_ and _chinese remainder theorem_, a method for solving said systems. Implementation from Rosetta code :sunglasses:
