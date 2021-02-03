@@ -85,3 +85,17 @@ Straightforward. Part 1 and 2 only differ in type of direction vector. In part 1
 Congruence system
 ###### Solution
 After much googling I finally stumbled upon something called _congruence systems_ and _chinese remainder theorem_, a method for solving said systems. Implementation from Rosetta code :sunglasses:
+
+#### Day 14
+###### Problem
+###### Solution
+
+#### Day 15
+###### Problem
+###### Solution
+
+#### Day 16
+###### Problem
+From a set of rules, find the rule matching a set of numbers. Repeat
+###### Solution
+There are _N_ rules (valid ranges) and _N_ columns. There is exactly one matching rule for each column. Some rows contain numbers that don't match any rule. These are discarded and used to calculate the _error rate_ in part 1. For each rule, we use a bitmap to represent the columns for which all the numbers match. The rules are sorted with respect to the number of ones in the bitmap (the number of fully matching columns) in ascending order. For each rule, starting with the rules with only one fully matching column, the bitmap of the remaining rules are xor-ed with the bitmap of the current rule. Each bitmap should now contain a single one. To convert to column index, we use ::trailing_zeros().
