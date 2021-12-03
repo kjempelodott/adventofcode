@@ -13,11 +13,10 @@ fn main() {
         .filter_map(|l| u16::from_str_radix(&l, 2).ok())
         .collect();
     let n = bin.len();
-    let map: Vec<_> = (0..B).map(|i| count_ones(&bin, i)).collect();
-
-    let gamma = map.iter()
+    let gamma = (0..B)
+        .map(|i| count_ones(&bin, i))
         .enumerate()
-        .map(|(i,&v)| if v > (n+1)/2 { 1 << i } else { 0 })
+        .map(|(i,v)| if v > (n+1)/2 { 1 << i } else { 0 })
         .sum::<usize>();
 
     let epsilon = ((1 << B) - 1) ^ gamma;
