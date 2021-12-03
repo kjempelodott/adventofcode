@@ -7,6 +7,15 @@ fn count_ones(bin: &Vec<u16>, i: usize) -> usize {
     bin.iter().filter(|&&r| (1 << i) & r != 0).count()
 }
 
+fn reduce(bin: Vec<u16>, i: usize, mcb: bool) -> Vec<u16> {
+    let n = bin.len();
+    let m = count_ones(&bin, i);
+    if (m >= (n+1)/2) == mcb {
+        return bin.into_iter().filter(|&r| r & (1 << i) != 0).collect()
+    }
+    bin.into_iter().filter(|&r| r & (1 << i) == 0).collect()
+}
+
 fn main() {
     let bin: Vec<u16> = read_from_stdin()
         .lines()
@@ -23,14 +32,7 @@ fn main() {
     let mut ratings = bin.clone();
     let mut j = B-1;
     while ratings.len() > 1 {
-        let n = ratings.len();
-        let m = count_ones(&ratings, j);
-        if m >= (n+1)/2 {
-            ratings = ratings.into_iter().filter(|&r| r & (1 << j) != 0).collect();
-        }
-        else {
-            ratings = ratings.into_iter().filter(|&r| r & (1 << j) == 0).collect();
-        }
+        ratings = reduce(ratings, j, true);
         j -= 1;
     }
     let oxy = ratings[0] as usize;
@@ -38,14 +40,7 @@ fn main() {
     ratings = bin.clone();
     j = B-1;
     while ratings.len() > 1 {
-        let n = ratings.len();
-        let m = count_ones(&ratings, j);
-        if m >= (n+1)/2 {
-            ratings = ratings.into_iter().filter(|&r| r & (1 << j) == 0).collect();
-        }
-        else {
-            ratings = ratings.into_iter().filter(|&r| r & (1 << j) != 0).collect();            
-        }
+        ratings = reduce(ratings, j, false);
         j -= 1;
     }
     let co2 = ratings[0] as usize;
