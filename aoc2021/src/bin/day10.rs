@@ -25,14 +25,7 @@ fn main() {
                 }
             };
         }
-        let mut auto = vec![];
-        for &c in scan.iter() {
-            match c {
-                '('|'['|'{'|'<' => auto.push(c),
-                _ => { auto.pop(); }
-            };
-        }
-        auto_completes.push(auto.iter()
+        auto_completes.push(scan.iter()
                             .rev()
                             .map(|c| match c {
                                 '(' => 1,
