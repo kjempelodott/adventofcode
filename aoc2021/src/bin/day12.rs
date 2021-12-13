@@ -39,10 +39,10 @@ fn main() {
         let (big1, big2) = (c1.to_uppercase() == c1, c2.to_uppercase() == c2);
         let (cave1, cave2) = ((c1, big1), (c2, big2));
         if c1 != "start" {
-            caves.entry(cave2).or_insert(vec![]).push(cave1.clone());
+            caves.entry(cave2).or_insert(vec![]).push(cave1);
         }
         if c2 != "start" {
-            caves.entry(cave1.clone()).or_insert(vec![]).push(cave2.clone());
+            caves.entry(cave1).or_insert(vec![]).push(cave2);
         }
     }
     println!("{}", traverse(&caves, 1));
