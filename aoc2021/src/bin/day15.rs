@@ -15,9 +15,9 @@ fn traverse(s: usize, w: usize, h: usize, map: &Vec<u8>) -> i64 {
         if j == s*h-1 && i == s*w-1 {
             return -r;
         }
-        if i != 0   { queue.push((r,j,i-1)); }
+        if i != 0     { queue.push((r,j,i-1)); }
         if i != s*w-1 { queue.push((r,j,i+1)); }
-        if j != 0   { queue.push((r,j-1,i)); }
+        if j != 0     { queue.push((r,j-1,i)); }
         if j != s*h-1 { queue.push((r,j+1,i)); }
     }
     unreachable!();
