@@ -3,7 +3,9 @@
 extern crate aoc2021;
 use aoc2021::read_from_stdin;
 
-fn parse<'a>(line: &'a str) -> Vec<(usize, usize)> {
+type SnailNum = Vec<(usize, usize)>;
+
+fn parse<'a>(line: &'a str) -> SnailNum {
     line.chars()
         .scan(0, |level, c| Some(match c {
             '[' => { *level += 1; None },
@@ -15,14 +17,14 @@ fn parse<'a>(line: &'a str) -> Vec<(usize, usize)> {
         .collect()
 }
 
-fn add(mut a: Vec<(usize, usize)>, b: Vec<(usize, usize)>) -> Vec<(usize, usize)> {
+fn add(mut a: SnailNum, b: SnailNum) -> SnailNum {
     a.extend(b);
     (0..a.len()).for_each(|i| { a[i].0 += 1; });
     reduce(&mut a);
     a
 }
 
-fn reduce(tree: &mut Vec<(usize, usize)>) {
+fn reduce(tree: &mut SnailNum) {
     loop {
         if let Some(i) = tree.iter().position(|(lvl,_)| *lvl == 5) { // First element in exploding pair
             let (_, val) = tree.remove(i+1);
@@ -46,7 +48,7 @@ fn reduce(tree: &mut Vec<(usize, usize)>) {
     }
 }
 
-fn magnitude(mut tree: Vec<(usize, usize)>) -> usize {
+fn magnitude(mut tree: SnailNum) -> usize {
     (1..=4).rev().for_each(|lvl| {
         while let Some(i) = tree.iter().position(|(l,_)| *l == lvl) {
             let (_, val) = tree.remove(i+1);
@@ -60,7 +62,7 @@ fn magnitude(mut tree: Vec<(usize, usize)>) -> usize {
 fn main() {
     let numbers = read_from_stdin().lines()
         .map(|line| parse(line))
-        .collect::<Vec<Vec<(usize,usize)>>>();
+        .collect::<Vec<SnailNum>>();
 
     let result = numbers.iter()
         .cloned()
