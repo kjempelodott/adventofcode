@@ -15,7 +15,7 @@ fn parse<'a>(line: &'a str) -> Vec<(usize, usize)> {
         .collect()
 }
 
-fn add(mut a: Vec<(usize, usize)>, b: &Vec<(usize, usize)>) -> Vec<(usize, usize)> {
+fn add(mut a: Vec<(usize, usize)>, b: Vec<(usize, usize)>) -> Vec<(usize, usize)> {
     a.extend(b);
     (0..a.len()).for_each(|i| { a[i].0 += 1; });
     reduce(&mut a);
@@ -64,7 +64,7 @@ fn main() {
 
     let result = numbers.iter()
         .cloned()
-        .reduce(|t1,t2| add(t1, &t2))
+        .reduce(|t1,t2| add(t1, t2))
         .unwrap();
     println!("Part 1: {}", magnitude(result));
 
@@ -72,9 +72,9 @@ fn main() {
     for i in 0..numbers.len() {
         for j in i+1..numbers.len() {
             let (a, b) = (numbers[i].clone(), numbers[j].clone());
-            let c = magnitude(add(a,&b));
+            let c = magnitude(add(a,b));
             let (a, b) = (numbers[j].clone(), numbers[i].clone());
-            let d = magnitude(add(a,&b));
+            let d = magnitude(add(a,b));
             max = std::cmp::max(max, std::cmp::max(c,d));
         }
     }
