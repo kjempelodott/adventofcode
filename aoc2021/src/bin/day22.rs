@@ -29,48 +29,47 @@ impl std::ops::BitAnd for Cuboid {
 impl std::ops::BitXor for Cuboid {
     type Output = Option<Vec<Self>>;
     fn bitxor(self, rhs: Self) -> Self::Output {
-        let iq = (self & rhs)?;
         let mut cuboids = vec![];
-        if iq.0.0 > self.0.0 {
+        if rhs.0.0 > self.0.0 {
             cuboids.push(Cuboid(
-                Span(self.0.0, iq.0.0),
+                Span(self.0.0, rhs.0.0),
                 self.1,
                 self.2
             ));
         }
-        if iq.0.1 < self.0.1 {
+        if rhs.0.1 < self.0.1 {
             cuboids.push(Cuboid(
-                Span(iq.0.1, self.0.1),
+                Span(rhs.0.1, self.0.1),
                 self.1,
                 self.2
             ));
         }   
-        if iq.1.0 > self.1.0 {
+        if rhs.1.0 > self.1.0 {
             cuboids.push(Cuboid(
-                Span(self.0.0.max(iq.0.0), self.0.1.min(iq.0.1)),
-                Span(self.1.0, iq.1.0),
+                Span(self.0.0.max(rhs.0.0), self.0.1.min(rhs.0.1)),
+                Span(self.1.0, rhs.1.0),
                 self.2
             ));
         }
-        if iq.1.1 < self.1.1 {
+        if rhs.1.1 < self.1.1 {
             cuboids.push(Cuboid(
-                Span(self.0.0.max(iq.0.0), self.0.1.min(iq.0.1)),
-                Span(iq.1.1, self.1.1),
+                Span(self.0.0.max(rhs.0.0), self.0.1.min(rhs.0.1)),
+                Span(rhs.1.1, self.1.1),
                 self.2
             ));
         }   
-        if iq.2.0 > self.2.0 {
+        if rhs.2.0 > self.2.0 {
             cuboids.push(Cuboid(
-                Span(self.0.0.max(iq.0.0), self.0.1.min(iq.0.1)),
-                Span(self.1.0.max(iq.1.0), self.1.1.min(iq.1.1)),
-                Span(self.2.0, iq.2.0)
+                Span(self.0.0.max(rhs.0.0), self.0.1.min(rhs.0.1)),
+                Span(self.1.0.max(rhs.1.0), self.1.1.min(rhs.1.1)),
+                Span(self.2.0, rhs.2.0)
             ));
         }
-        if iq.2.1 < self.2.1 {
+        if rhs.2.1 < self.2.1 {
             cuboids.push(Cuboid(
-                Span(self.0.0.max(iq.0.0), self.0.1.min(iq.0.1)),
-                Span(self.1.0.max(iq.1.0), self.1.1.min(iq.1.1)),
-                Span(iq.2.1, self.2.1)
+                Span(self.0.0.max(rhs.0.0), self.0.1.min(rhs.0.1)),
+                Span(self.1.0.max(rhs.1.0), self.1.1.min(rhs.1.1)),
+                Span(rhs.2.1, self.2.1)
             ));
         }
         Some(cuboids)        
@@ -101,7 +100,7 @@ fn main() {
         else {
             cuboids = cuboids.iter()
                 .fold(vec![], |mut acc, &c| {
-                    if let Some(z) = c ^ q {
+                    if let Some(z) = (c & q).and_then(|i| c ^ i) {
                         acc.extend(z);
                     }
                     else {
