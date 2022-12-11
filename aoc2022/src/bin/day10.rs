@@ -1,16 +1,5 @@
 extern crate aoc2022;
 use aoc2022::{into_lines,read_from_stdin};
-use parse_display::FromStr;
-
-#[derive(FromStr)]
-enum Instruction {
-  #[display("noop")]
-  NoOp,
-  #[display("addx {0}")]
-  Add(isize),
-}
-
-use Instruction::*;
 
 fn main() {
     let input = into_lines(read_from_stdin());
@@ -30,16 +19,12 @@ fn main() {
             20 => { sum += i * x; },
             _ => {}
         }
-        if let Some(Add(v)) = op {
+        if let Some(v) = op {
             x += v;
             op = None;
         }
         else if let Some(line) = lines.next() {
-            op = match line.parse::<Instruction>() {
-                Ok(NoOp) => None,
-                Ok(Add(x)) => Some(Add(x)),
-                _ => unreachable!()
-            };
+            op = line.split_once(' ').and_then(|(_, n)| n.parse::<isize>().ok());
         }
     }
     println!("Part 1: {}", sum);
