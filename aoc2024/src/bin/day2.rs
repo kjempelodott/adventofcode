@@ -1,8 +1,8 @@
 use itertools::Itertools;
 use aoc2024::{numbers,read_from_stdin};
 
-fn cmp(input: impl Iterator<Item = isize> + Clone) -> bool {
-    (input.clone().all(|d| (d > 0)) || input.clone().all(|d| (d < 0))) && input.clone().all(|d| isize::abs(d) < 4)
+fn check(diffs: Vec<isize>) -> bool {
+    (diffs.iter().all(|&d| (d > 0)) || diffs.iter().all(|&d| (d < 0))) && diffs.iter().all(|&d| isize::abs(d) < 4)
 }
 
 fn main() {
@@ -15,7 +15,7 @@ fn main() {
     let mut part2 = 0;
     'outer: for report in reports.iter() {
         let diffs = report.iter().tuple_windows().map(|(a,b)| a - b).collect::<Vec<_>>();
-        if cmp(diffs.iter().cloned()) {
+        if check(diffs) {
             part1 += 1;
             part2 += 1;
             continue;
@@ -24,7 +24,7 @@ fn main() {
             let mut try_report = report.clone();
             try_report.remove(i);
             let diffs = try_report.iter().tuple_windows().map(|(a,b)| a - b).collect::<Vec<_>>();
-            if cmp(diffs.iter().cloned()) {
+            if check(diffs) {
                 part2 += 1;
                 continue 'outer;
             }
