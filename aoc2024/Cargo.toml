@@ -7,3 +7,4 @@ edition = "2021"
 itertools = '*'
 counter = '*'
 parse-display = '*'
+regex = '*'
