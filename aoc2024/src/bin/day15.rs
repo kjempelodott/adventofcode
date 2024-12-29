@@ -35,6 +35,7 @@ struct Map {
     entities: Vec<Entity>,
     map: HashMap<C,EntityIndex>,
     width: isize,
+    robot: usize,
     max_pos: C
 }
 
@@ -71,43 +72,51 @@ impl Map {
                 }
             }
         }
+        let rdx = entities.len();
         entities.push(robot);
         Map {
             entities: entities,
             map: map,
             width: w,
+            robot: rdx,
             max_pos: (max_y, max_x)
         }
     }
 
     fn move_robot(&mut self, dir: C) {
-        if let Some(to_move) = self._move(self.entities.len() - 1, dir, 1) {
-            // Move boxes
-            let (dy, dx) = dir;
-            for idx in to_move.clone().into_iter().skip(1).unique() {
-                let ref e = &self.entities[idx];
-                for s in 0..self.width {
-                    self.map.remove(&(e.y,e.x+s));
+        let (dy, dx) = dir;
+        let r = self.entities[self.robot];
+        let p = (r.y + dy, r.x + dx);
+        if let Some(jdx) = self.map.get(&p) {
+            if let Some(to_move) = self._move(*jdx, dir) {
+                for idx in to_move.clone().into_iter().skip(1).unique() {
+                    let ref e = &self.entities[idx];
+                    for s in 0..self.width {
+                        self.map.remove(&(e.y,e.x+s));
+                    }
+                }
+                for idx in to_move.clone().into_iter().skip(1).unique() {
+                    let ref mut e = &mut self.entities[idx];
+                    e.y += dy;
+                    e.x += dx;
+                    for s in 0..self.width {
+                        self.map.insert((e.y,e.x+s), idx);
+                    }
                 }
             }
-            for idx in to_move.clone().into_iter().skip(1).unique() {
-                let ref mut e = &mut self.entities[idx];
-                e.y += dy;
-                e.x += dx;
-                for s in 0..self.width {
-                    self.map.insert((e.y,e.x+s), idx);
-                }
+            else {
+                return
             }
-            // Move robot
-            let ref mut r = &mut self.entities[to_move[0]];
-            r.y += dy;
-            r.x += dx;
         }
+        let ref mut r = &mut self.entities[self.robot];
+        r.y += dy;
+        r.x += dx;
     }
 
-    fn _move(&self, idx: EntityIndex, dir: C, w: isize) -> Option<Vec<usize>> {
+    fn _move(&self, idx: EntityIndex, dir: C) -> Option<Vec<usize>> {
         let ref e = self.entities[idx];
         let (dy, dx) = dir;
+        let w = self.width;
         if e.movable {
             let mut to_move = vec![idx];
             match dx {
@@ -115,7 +124,7 @@ impl Map {
                     for x in 0..w {
                         let p = (e.y + dy, e.x + x);
                         if let Some(jdx) = self.map.get(&p) {
-                            if let Some(mut moves) = self._move(*jdx, dir, self.width) {
+                            if let Some(mut moves) = self._move(*jdx, dir) {
                                 to_move.append(&mut moves);
                             }
                             else {
@@ -127,7 +136,7 @@ impl Map {
                 -1 => {
                     let p = (e.y, e.x - 1);
                     if let Some(jdx) = self.map.get(&p) {
-                        if let Some(mut moves) = self._move(*jdx, dir, self.width) {
+                        if let Some(mut moves) = self._move(*jdx, dir) {
                             to_move.append(&mut moves);
                         }
                         else {
@@ -138,7 +147,7 @@ impl Map {
                 1 => {
                     let p = (e.y, e.x + w);
                     if let Some(jdx) = self.map.get(&p) {
-                        if let Some(mut moves) = self._move(*jdx, dir, self.width) {
+                        if let Some(mut moves) = self._move(*jdx, dir) {
                             to_move.append(&mut moves);
                         }
                         else {
